@@ -1,0 +1,12 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+venv/
+
+# Face data is sensitive — keep out of version control
+data/db.json
+data/faces/*
+!data/faces/.gitkeep

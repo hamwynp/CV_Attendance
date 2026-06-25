@@ -1,0 +1,6 @@
+# Requires cmake and a C++ compiler for dlib (face_recognition dependency).
+# On Arch: sudo pacman -S cmake
+# On Ubuntu/Debian: sudo apt install cmake build-essential
+face_recognition>=1.3.0
+opencv-python>=4.5.0
+numpy>=1.21.0
