@@ -77,12 +77,15 @@ class FaceRecognizer:
     # Main loop
     # ------------------------------------------------------------------
 
-    def run(self, on_unknown_face):
+    def run(self, on_unknown_face, on_known_face=None):
         """
         Start the live recognition loop.
 
-        on_unknown_face(encoding, face_crop_bgr) is called (with the camera
-        released) whenever a face cannot be matched to any known person.
+        on_unknown_face(encoding, face_crop_bgr) — called (camera released) when
+        a face cannot be matched to any known person.
+
+        on_known_face(person_id, person_name) — called each frame a known worker
+        is detected; used for attendance toggling with cooldown logic in the caller.
         """
         self._open_camera()
         print("Camera ready — press 'q' to quit.\n")
@@ -105,8 +108,12 @@ class FaceRecognizer:
                         on_unknown_face(encoding, face_crop)
                         self._open_camera()
                         break  # re-evaluate after registration
-
-                    self._draw_label(frame, top, right, bottom, left, person_id)
+                    else:
+                        person = self.db.get_person(person_id)
+                        person_name = person["name"] if person else person_id
+                        if on_known_face and person and person["type"] == "worker":
+                            on_known_face(person_id, person_name)
+                        self._draw_label(frame, top, right, bottom, left, person_id)
 
                 if not unknown_found:
                     cv2.imshow("CV Attendance", frame)
