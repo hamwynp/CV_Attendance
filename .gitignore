@@ -6,7 +6,11 @@ __pycache__/
 .venv/
 venv/
 
-# Face data is sensitive — keep out of version control
+# Face data and attendance records are sensitive — keep out of version control
 data/db.json
 data/faces/*
 !data/faces/.gitkeep
+data/attendance/
+
+# Knowledge graph output
+graphify-out/
